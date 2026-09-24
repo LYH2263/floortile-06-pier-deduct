@@ -21,6 +21,12 @@ def init_db():
             data_quality TEXT NOT NULL DEFAULT 'clean'
         );
         CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY, value TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS room_pillars(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            room_id INTEGER NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
+            length REAL NOT NULL,
+            width REAL NOT NULL
+        );
         CREATE TABLE IF NOT EXISTS calc_runs(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             room_id INTEGER,
