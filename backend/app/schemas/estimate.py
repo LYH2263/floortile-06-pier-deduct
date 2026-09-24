@@ -15,6 +15,8 @@ class EstimateResponse(BaseModel):
     room_name: str
     tile_name: str
     area_m2: float
+    deduct_m2: float = 0.0
+    net_area_m2: float | None = None
     piece_m2: float
     raw_count: int
     waste_pct: float

@@ -29,12 +29,17 @@ async function preview() {
 }
 
 async function saveRun() {
-  result.value = await postJSON('/api/estimate', {
-    room_id: roomId.value,
-    tile_id: tileId.value,
-    save: true,
-    note: '前端保存',
-  })
+  err.value = ''
+  try {
+    result.value = await postJSON('/api/estimate', {
+      room_id: roomId.value,
+      tile_id: tileId.value,
+      save: true,
+      note: '前端保存',
+    })
+  } catch (e) {
+    err.value = e.message
+  }
 }
 </script>
 <template>

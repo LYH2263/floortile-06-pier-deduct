@@ -30,6 +30,13 @@ def init_db():
             note TEXT DEFAULT '',
             created_at TEXT NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS room_piers(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            room_id INTEGER NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
+            name TEXT NOT NULL DEFAULT '',
+            length REAL NOT NULL,
+            width REAL NOT NULL
+        );
         """
     )
     if conn.execute("SELECT COUNT(*) c FROM rooms").fetchone()["c"] == 0:
@@ -47,6 +54,14 @@ def init_db():
                 ("600x600", 0.6, 0.6, "clean"),
                 ("800x800", 0.8, 0.8, "clean"),
                 ("脏数据-零面积", 0.0, 0.6, "dirty"),
+            ],
+        )
+        # 客餐厅内两根承重柱墩
+        conn.executemany(
+            "INSERT INTO room_piers(room_id,name,length,width) VALUES (?,?,?,?)",
+            [
+                (1, "承重柱A", 0.5, 0.5),
+                (1, "承重柱B", 0.4, 0.3),
             ],
         )
         conn.execute("INSERT INTO settings(key,value) VALUES ('waste_pct','8')")
